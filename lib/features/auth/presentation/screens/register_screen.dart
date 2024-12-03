@@ -7,9 +7,13 @@ import 'package:ecommerce/core/routes/routes.dart';
 import 'package:ecommerce/core/utils/validator.dart';
 import 'package:ecommerce/core/widgets/custom_elevated_button.dart';
 import 'package:ecommerce/core/widgets/custom_text_field.dart';
+import 'package:ecommerce/features/auth/data/models/register_request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../cubit/auth_cubit.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen();
@@ -103,7 +107,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           fontSize: FontSize.s20,
                         ),
                         onTap: () {
-                          if (_formKey.currentState!.validate()) {}
+                          if (_formKey.currentState!.validate()) {
+                            final cubit = context.read<AuthCubit>();
+                            cubit.register(
+                              registerRequest: RegisterRequest(
+                                  name: _nameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                  phone: _phoneController.text),
+                            );
+                          }
                         },
                       ),
                     ),
