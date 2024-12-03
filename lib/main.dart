@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:ecommerce/core/app_bloc_observer.dart';
 import 'package:ecommerce/core/routes/route_generator.dart';
 import 'package:ecommerce/core/routes/routes.dart';
