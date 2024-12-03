@@ -7,9 +7,13 @@ import 'package:ecommerce/core/routes/routes.dart';
 import 'package:ecommerce/core/utils/validator.dart';
 import 'package:ecommerce/core/widgets/custom_elevated_button.dart';
 import 'package:ecommerce/core/widgets/custom_text_field.dart';
+import 'package:ecommerce/features/auth/data/models/login_request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../cubit/auth_cubit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen();
@@ -106,7 +110,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           fontSize: FontSize.s18,
                         ),
                         onTap: () {
-                          if (_formKey.currentState!.validate()) {}
+                          if (_formKey.currentState!.validate()) {
+                            final cubit = context.read<AuthCubit>();
+                            cubit.login(
+                              loginRequest: LoginRequest(
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                              ),
+                            );
+                          }
                         },
                       ),
                     ),
