@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ecommerce/core/app_bloc_observer.dart';
+import 'package:ecommerce/core/di/service_locator.dart';
 import 'package:ecommerce/core/routes/route_generator.dart';
 import 'package:ecommerce/core/routes/routes.dart';
 import 'package:ecommerce/features/auth/presentation/cubit/auth_cubit.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
+  await configureDependencies();
   runApp(const ECommerceApp());
 }
 
@@ -19,7 +21,7 @@ class ECommerceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(),
+      create: (context) => getIt.get<AuthCubit>(),
       child: ScreenUtilInit(
         designSize: const Size(430, 932),
         minTextAdapt: true,
