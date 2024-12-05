@@ -4,16 +4,17 @@ import 'package:ecommerce/core/resources/font_manager.dart';
 import 'package:ecommerce/core/resources/styles_manager.dart';
 import 'package:ecommerce/core/resources/values_manager.dart';
 import 'package:ecommerce/core/routes/routes.dart';
+import 'package:ecommerce/core/utils/ui_utils.dart';
 import 'package:ecommerce/core/utils/validator.dart';
 import 'package:ecommerce/core/widgets/custom_elevated_button.dart';
 import 'package:ecommerce/core/widgets/custom_text_field.dart';
 import 'package:ecommerce/features/auth/data/models/login_request.dart';
+import 'package:ecommerce/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ecommerce/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../cubit/auth_cubit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen();
@@ -43,7 +44,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     height: Sizes.s40.h,
                   ),
-                  Center(child: SvgPicture.asset(SvgAssets.route)),
+                  Center(
+                    child: SvgPicture.asset(SvgAssets.route),
+                  ),
                   SizedBox(
                     height: Sizes.s40.h,
                   ),
@@ -101,25 +104,39 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   Center(
                     child: SizedBox(
-                      child: CustomElevatedButton(
-                        label: 'Login',
-                        backgroundColor: ColorManager.white,
-                        isStadiumBorder: false,
-                        textStyle: getBoldStyle(
-                          color: ColorManager.primary,
-                          fontSize: FontSize.s18,
-                        ),
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            final cubit = context.read<AuthCubit>();
-                            cubit.login(
-                              loginRequest: LoginRequest(
-                                email: _emailController.text,
-                                password: _passwordController.text,
-                              ),
-                            );
+                      child: BlocListener<AuthCubit, AuthState>(
+                        listener: (context, state) {
+                          if (state is LoginSuccessState) {
+                            UIUtils.hideLoading(context);
+                            Navigator.of(context)
+                                .pushReplacementNamed(Routes.home);
+                          } else if (state is LoginLoadingState) {
+                            UIUtils.showLoading(context);
+                          } else if (state is LoginErrorState) {
+                            UIUtils.hideLoading(context);
+                            UIUtils.showMessage(state.errorMessage);
                           }
                         },
+                        child: CustomElevatedButton(
+                          label: 'Login',
+                          backgroundColor: ColorManager.white,
+                          isStadiumBorder: false,
+                          textStyle: getBoldStyle(
+                            color: ColorManager.primary,
+                            fontSize: FontSize.s18,
+                          ),
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              final cubit = context.read<AuthCubit>();
+                              cubit.login(
+                                loginRequest: LoginRequest(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                ),
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),

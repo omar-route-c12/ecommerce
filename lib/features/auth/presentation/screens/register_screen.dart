@@ -4,16 +4,17 @@ import 'package:ecommerce/core/resources/font_manager.dart';
 import 'package:ecommerce/core/resources/styles_manager.dart';
 import 'package:ecommerce/core/resources/values_manager.dart';
 import 'package:ecommerce/core/routes/routes.dart';
+import 'package:ecommerce/core/utils/ui_utils.dart';
 import 'package:ecommerce/core/utils/validator.dart';
 import 'package:ecommerce/core/widgets/custom_elevated_button.dart';
 import 'package:ecommerce/core/widgets/custom_text_field.dart';
 import 'package:ecommerce/features/auth/data/models/register_request.dart';
+import 'package:ecommerce/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:ecommerce/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../cubit/auth_cubit.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen();
@@ -98,26 +99,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: SizedBox(
                       height: Sizes.s60.h,
                       width: MediaQuery.sizeOf(context).width * .9,
-                      child: CustomElevatedButton(
-                        label: 'Register',
-                        backgroundColor: ColorManager.white,
-                        isStadiumBorder: false,
-                        textStyle: getBoldStyle(
-                          color: ColorManager.primary,
-                          fontSize: FontSize.s20,
-                        ),
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            final cubit = context.read<AuthCubit>();
-                            cubit.register(
-                              registerRequest: RegisterRequest(
-                                  name: _nameController.text,
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                  phone: _phoneController.text),
+                      child: BlocListener<AuthCubit, AuthState>(
+                        listener: (context, state) {
+                          if (state is RegisterLoadingState) {
+                            UIUtils.showLoading(context);
+                          } else if (state is RegisterSuccessState) {
+                            UIUtils.hideLoading(context);
+                            Navigator.pushReplacementNamed(
+                              context,
+                              Routes.home,
                             );
+                          } else if (state is RegisterErrorState) {
+                            UIUtils.hideLoading(context);
+                            UIUtils.showMessage(state.errorMessage);
                           }
                         },
+                        child: CustomElevatedButton(
+                          label: 'Register',
+                          backgroundColor: ColorManager.white,
+                          isStadiumBorder: false,
+                          textStyle: getBoldStyle(
+                            color: ColorManager.primary,
+                            fontSize: FontSize.s20,
+                          ),
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              final cubit = context.read<AuthCubit>();
+                              cubit.register(
+                                registerRequest: RegisterRequest(
+                                    name: _nameController.text,
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    phone: _phoneController.text),
+                              );
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ),
