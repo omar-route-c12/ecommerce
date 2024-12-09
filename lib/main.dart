@@ -21,7 +21,7 @@ class ECommerceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt.get<AuthCubit>(),
+      create: (context) => serviceLocator.get<AuthCubit>(),
       child: ScreenUtilInit(
         designSize: const Size(430, 932),
         minTextAdapt: true,
