@@ -1,5 +1,5 @@
-import 'package:ecommerce/features/home/data/models/categories_response/category_model.dart';
-import 'package:ecommerce/features/home/data/models/categories_response/metadata.dart';
+import 'package:ecommerce/core/models/category_model.dart';
+import 'package:ecommerce/core/models/metadata.dart';
 
 class CategoriesResponse {
   final int results;
