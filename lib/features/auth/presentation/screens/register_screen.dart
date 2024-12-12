@@ -130,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     name: _nameController.text,
                                     email: _emailController.text,
                                     password: _passwordController.text,
-                                    phone: _phoneController.text),
+                                    phone: _phoneController.text,),
                               );
                             }
                           },
