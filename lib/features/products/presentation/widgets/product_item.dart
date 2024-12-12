@@ -34,25 +34,28 @@ class ProductItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                ClipRRect(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(14.r)),
-                  child: CachedNetworkImage(
-                    imageUrl: product.imageCoverURL,
-                    width: screenSize.width,
-                    height: 77.h,
-                    fit: BoxFit.cover,
+            Expanded(
+              flex: 5,
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  ClipRRect(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(14.r)),
+                    child: CachedNetworkImage(
+                      imageUrl: product.imageCoverURL,
+                      width: screenSize.width,
+
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                PositionedDirectional(
-                  top: screenSize.height * 0.01,
-                  end: screenSize.width * 0.02,
-                  child: HeartButton(onTap: () {}),
-                ),
-              ],
+                  PositionedDirectional(
+                    top: screenSize.height * 0.01,
+                    end: screenSize.width * 0.02,
+                    child: HeartButton(onTap: () {}),
+                  ),
+                ],
+              ),
             ),
             Expanded(
               flex: 11,
