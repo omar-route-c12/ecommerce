@@ -3,8 +3,8 @@ class CategoryModel {
   final String name;
   final String slug;
   final String image;
-  final String createdAt;
-  final String updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   CategoryModel({
     required this.id,
@@ -21,8 +21,12 @@ class CategoryModel {
       name: json['name'] as String,
       slug: json['slug'] as String,
       image: json['image'] as String,
-      createdAt: json['createdAt'] as String,
-      updatedAt: json['updatedAt'] as String,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
     );
   }
 }

@@ -23,7 +23,7 @@ class RouteGenerator {
         );
       case Routes.productDetails:
         return MaterialPageRoute(
-          builder: (_) => const ProductDetails(),
+          builder: (_) => const ProductDetailsScreen(),
           settings: settings,
         );
       case Routes.cart:

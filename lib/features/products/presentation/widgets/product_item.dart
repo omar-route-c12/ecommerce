@@ -3,11 +3,14 @@ import 'package:ecommerce/core/resources/color_manager.dart';
 import 'package:ecommerce/core/resources/styles_manager.dart';
 import 'package:ecommerce/core/routes/routes.dart';
 import 'package:ecommerce/core/widgets/heart_button.dart';
+import 'package:ecommerce/features/products/domain/entities/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem();
+  const ProductItem(this.product);
+
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +19,11 @@ class ProductItem extends StatelessWidget {
     return InkWell(
       onTap: () => Navigator.of(context).pushNamed(
         Routes.productDetails,
+        arguments: product,
       ),
       child: Container(
-        width: screenSize.width * 0.4,
-        height: screenSize.height * 0.3,
+        width: screenSize.width * 0.5,
+        height: screenSize.height * 0.5,
         decoration: BoxDecoration(
           border: Border.all(
             color: ColorManager.primary.withOpacity(0.3),
@@ -30,39 +34,36 @@ class ProductItem extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
-              flex: 5,
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  ClipRRect(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(14.r)),
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          'https://pl.kicksmaniac.com/zdjecia/2022/08/23/508/43/NIKE_AIR_JORDAN_1_RETRO_HIGH_GS_RARE_AIR_MAX_ORANGE-mini.jpg',
-                      width: screenSize.width,
-                      fit: BoxFit.cover,
-                    ),
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                ClipRRect(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(14.r)),
+                  child: CachedNetworkImage(
+                    imageUrl: product.imageCoverURL,
+                    width: screenSize.width,
+                    height: 77.h,
+                    fit: BoxFit.cover,
                   ),
-                  PositionedDirectional(
-                    top: screenSize.height * 0.01,
-                    end: screenSize.width * 0.02,
-                    child: HeartButton(onTap: () {}),
-                  ),
-                ],
-              ),
+                ),
+                PositionedDirectional(
+                  top: screenSize.height * 0.01,
+                  end: screenSize.width * 0.02,
+                  child: HeartButton(onTap: () {}),
+                ),
+              ],
             ),
             Expanded(
-              flex: 5,
+              flex: 11,
               child: Padding(
-                padding: const EdgeInsets.all(4),
+                padding: EdgeInsets.all(4.sp),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       _truncateTitle(
-                        'Nike Air Jordon Nike shoes flexible for wo..',
+                        product.title,
                       ),
                       style: getMediumStyle(
                         color: ColorManager.text,
@@ -72,7 +73,7 @@ class ProductItem extends StatelessWidget {
                     SizedBox(height: screenSize.height * 0.002),
                     Text(
                       _truncateDescription(
-                        'Nike is a multinational corporation that designs, develops, and sells athletic footwear ,apparel, and accessories.',
+                        product.description,
                       ),
                       style: getRegularStyle(
                         color: ColorManager.text,
@@ -86,15 +87,18 @@ class ProductItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'EGP 399',
+                            'EGP ${product.priceAfterDiscount ?? product.price}',
                             style: getRegularStyle(
                               color: ColorManager.text,
                               fontSize: 14.sp,
                             ),
                           ),
-                          Text(
-                            '499',
-                            style: getTextWithLine(),
+                          Visibility(
+                            visible: product.priceAfterDiscount != null,
+                            child: Text(
+                              '${product.price}',
+                              style: getTextWithLine(),
+                            ),
                           ),
                         ],
                       ),
@@ -107,7 +111,7 @@ class ProductItem extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Review (4.8)',
+                                'Review (${product.ratingsAverage})',
                                 style: getRegularStyle(
                                   color: ColorManager.text,
                                   fontSize: 12.sp,
@@ -122,11 +126,11 @@ class ProductItem extends StatelessWidget {
                         ),
                         const Spacer(),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(100),
+                          borderRadius: BorderRadius.circular(100.r),
                           child: InkWell(
                             onTap: () {},
                             child: Container(
-                              height: screenSize.height * 0.025,
+                              height: screenSize.height * 0.033,
                               width: screenSize.width * 0.08,
                               decoration: const BoxDecoration(
                                 shape: BoxShape.circle,

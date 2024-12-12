@@ -3,6 +3,7 @@ class ApiConstants {
   static const registerEndPoint = 'auth/signup';
   static const loginEndPoint = 'auth/signin';
   static const categoriesEndPoint = 'categories';
+  static const productsEndPoint = 'products';
 }
 
 class CacheConstants {

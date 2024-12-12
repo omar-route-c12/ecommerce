@@ -6,8 +6,8 @@ import 'package:ecommerce/features/auth/domain/entities/user.dart';
 
 abstract class AuthRepository {
   Future<Either<Failure, User>> register(
-      {required RegisterRequest registerRequest});
+      {required RegisterRequest registerRequest,});
 
   Future<Either<Failure, User>> login(
-      {required LoginRequest loginRequest});
+      {required LoginRequest loginRequest,});
 }

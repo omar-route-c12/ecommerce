@@ -16,7 +16,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthLocalDataSource _authLocalDataSource;
 
   const AuthRepositoryImpl(
-      this._authRemoteDataSource, this._authLocalDataSource);
+      this._authRemoteDataSource, this._authLocalDataSource,);
 
   @override
   Future<Either<Failure, User>> register({
@@ -24,7 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       final response = await _authRemoteDataSource.register(
-          registerRequest: registerRequest);
+          registerRequest: registerRequest,);
       await _authLocalDataSource.saveToken(response.token);
       return Right(response.user.toEntity);
     } on AppException catch (exception) {
