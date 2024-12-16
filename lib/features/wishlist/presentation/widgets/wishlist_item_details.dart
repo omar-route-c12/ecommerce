@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WishlistItemDetails extends StatelessWidget {
-  const WishlistItemDetails({required this.product});
+  const WishlistItemDetails({required this.product, super.key});
 
   final Map<String, dynamic> product;
 
@@ -38,49 +38,55 @@ class WishlistItemDetails extends StatelessWidget {
                 shape: BoxShape.circle,
               ),
             ),
-            CustomAutoSizeText(
-              data: (product['color'] as Color).colorName,
-              textStyle: getMediumStyle(
-                color: ColorManager.primaryDark,
-                fontSize: FontSize.s14,
+            Expanded(
+              child: CustomAutoSizeText(
+                data: (product['color'] as Color).colorName,
+                textStyle: getMediumStyle(
+                  color: ColorManager.primaryDark,
+                  fontSize: FontSize.s14,
+                ),
+                maxLines: 1,
               ),
             ),
           ],
         ),
         Row(
           children: [
-            CustomAutoSizeText(
-              data: 'EGP ${product['finalPrice']}  ',
-              textStyle: getSemiBoldStyle(
-                color: ColorManager.primaryDark,
-                fontSize: FontSize.s18,
-              ).copyWith(
-                letterSpacing: 0.17,
+            Expanded(
+              child: CustomAutoSizeText(
+                data: 'EGP ${product['finalPrice']}  ',
+                textStyle: getSemiBoldStyle(
+                  color: ColorManager.primaryDark,
+                  fontSize: FontSize.s18,
+                ).copyWith(
+                  letterSpacing: 0.17,
+                ),
+                maxLines: 1,
               ),
             ),
-            product['salePrice'] == null
-                ? const SizedBox.shrink()
-                : Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: Sizes.s10.h,
-                        ),
-                        CustomAutoSizeText(
-                          data: 'EGP ${product['salePrice']}',
-                          textStyle: getMediumStyle(
-                            color: ColorManager.appBarTitle.withOpacity(.6),
-                          ).copyWith(
-                            letterSpacing: 0.17,
-                            decoration: TextDecoration.lineThrough,
-                            color: ColorManager.appBarTitle.withOpacity(.6),
-                            fontSize: FontSize.s10,
-                          ),
-                        ),
-                      ],
+            if (product['salePrice'] != null)
+              Flexible(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: Sizes.s10.h,
                     ),
-                  ),
+                    CustomAutoSizeText(
+                      data: 'EGP ${product['salePrice']}',
+                      textStyle: getMediumStyle(
+                        color: ColorManager.appBarTitle.withOpacity(.6),
+                      ).copyWith(
+                        letterSpacing: 0.17,
+                        decoration: TextDecoration.lineThrough,
+                        color: ColorManager.appBarTitle.withOpacity(.6),
+                        fontSize: FontSize.s10,
+                      ),
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ],
