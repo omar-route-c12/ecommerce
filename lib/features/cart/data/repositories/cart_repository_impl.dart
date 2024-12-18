@@ -45,7 +45,7 @@ class CartRepositoryImpl implements CartRepository {
 
   @override
   Future<Either<Failure, Cart>> updateCart(
-      String productId, int quantity) async {
+      String productId, int quantity,) async {
     try {
       final response = await _remoteDataSource.updateCart(productId, quantity);
       return Right(response.cart.toEntity);

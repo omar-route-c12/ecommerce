@@ -6,5 +6,5 @@ extension CartProductMapper on CartProductModel {
       id: id,
       title: title,
       imageCoverURL: imageCoverURL,
-      ratingsAverage: ratingsAverage);
+      ratingsAverage: ratingsAverage,);
 }

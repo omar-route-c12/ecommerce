@@ -44,7 +44,7 @@ class CartApiRemoteDataSource implements CartRemoteDataSource {
   Future<CartResponseModel> updateCart(String productId, int quantity) async {
     try {
       final response = await _dio.put('${ApiConstants.cartEndPoint}/$productId',
-          data: {'count': quantity});
+          data: {'count': quantity},);
       return CartResponseModel.fromJson(response.data);
     } catch (exception) {
       String? message;
