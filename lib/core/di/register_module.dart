@@ -20,7 +20,7 @@ abstract class RegisterModule {
         final token = sharedPref.getString(CacheConstants.tokenKey);
         if (token != null) options.headers[ApiConstants.tokenKey] = token;
         return handler.next(options);
-      }),
+      },),
     );
     return dio;
   }

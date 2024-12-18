@@ -58,7 +58,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         child: Text(
                           'No Products',
                           style: getSemiBoldStyle(
-                              color: ColorManager.primary, fontSize: 25.sp),
+                              color: ColorManager.primary, fontSize: 25.sp,),
                         ),
                       )
                     : GridView.builder(
