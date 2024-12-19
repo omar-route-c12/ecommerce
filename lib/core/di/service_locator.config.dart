@@ -116,7 +116,7 @@ extension GetItInjectableX on _i174.GetIt {
         _i969.ProductsRepositoryImpl(gh<_i738.ProductsRemoteDataSource>()));
     gh.lazySingleton<_i533.GetCategories>(
         () => _i533.GetCategories(gh<_i572.HomeRepository>()));
-    gh.lazySingleton<_i669.HomeCubit>(
+    gh.factory<_i669.HomeCubit>(
         () => _i669.HomeCubit(gh<_i533.GetCategories>()));
     gh.lazySingleton<_i769.CartCubit>(() => _i769.CartCubit(
           gh<_i804.AddToCart>(),
