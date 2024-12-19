@@ -4,6 +4,8 @@ class HomeState {}
 
 class HomeInitialState extends HomeState {}
 
+class SelectedIndexChanged extends HomeState {}
+
 class GetCategoriesSuccessState extends HomeState {
   final List<Category> categories;
 
