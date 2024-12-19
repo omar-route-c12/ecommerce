@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:ecommerce/core/app_bloc_observer.dart';
+import 'package:ecommerce/core/constants.dart';
 import 'package:ecommerce/core/di/service_locator.dart';
 import 'package:ecommerce/core/routes/route_generator.dart';
 import 'package:ecommerce/core/routes/routes.dart';
@@ -8,16 +9,22 @@ import 'package:ecommerce/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
   await configureDependencies();
-  runApp(const ECommerceApp());
+  final pref = serviceLocator.get<SharedPreferences>();
+  final token = pref.getString(CacheConstants.tokenKey);
+  final route = token == null ? Routes.login : Routes.home;
+  runApp(ECommerceApp(route));
 }
 
 class ECommerceApp extends StatelessWidget {
-  const ECommerceApp();
+  const ECommerceApp(this.route);
+
+  final String route;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +37,10 @@ class ECommerceApp extends StatelessWidget {
         designSize: const Size(430, 932),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (_, __) => const MaterialApp(
+        builder: (_, __) => MaterialApp(
           debugShowCheckedModeBanner: false,
           onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: Routes.login,
+          initialRoute: route,
         ),
       ),
     );

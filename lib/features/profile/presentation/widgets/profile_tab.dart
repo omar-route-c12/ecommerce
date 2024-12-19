@@ -3,11 +3,16 @@ import 'package:ecommerce/core/resources/color_manager.dart';
 import 'package:ecommerce/core/resources/font_manager.dart';
 import 'package:ecommerce/core/resources/styles_manager.dart';
 import 'package:ecommerce/core/resources/values_manager.dart';
+import 'package:ecommerce/core/routes/routes.dart';
 import 'package:ecommerce/core/utils/validator.dart';
 import 'package:ecommerce/core/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../core/constants.dart';
+import '../../../../core/di/service_locator.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab();
@@ -32,13 +37,30 @@ class ProfileTabState extends State<ProfileTab> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SvgPicture.asset(
-                SvgAssets.route,
-                height: Sizes.s40.h,
-                colorFilter: const ColorFilter.mode(
-                  ColorManager.primary,
-                  BlendMode.srcIn,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SvgPicture.asset(
+                    SvgAssets.route,
+                    height: Sizes.s40.h,
+                    colorFilter: const ColorFilter.mode(
+                      ColorManager.primary,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      final sharedPref =
+                          serviceLocator.get<SharedPreferences>();
+                      await sharedPref.remove(CacheConstants.tokenKey);
+                      Navigator.pushNamedAndRemoveUntil(context, Routes.login, (route) => false);
+                    },
+                    icon: const Icon(
+                      Icons.logout,
+                      color: ColorManager.primary,
+                    ),
+                  )
+                ],
               ),
               SizedBox(height: Sizes.s20.h),
               Text(
