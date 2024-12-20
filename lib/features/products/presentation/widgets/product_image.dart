@@ -28,9 +28,6 @@ class ProductImage extends StatelessWidget {
           borderRadius: BorderRadius.circular(15.r),
         ),
         alignment: AlignmentDirectional.topEnd,
-        child: HeartButton(
-          onTap: onTap,
-        ),
       ),
     );
   }

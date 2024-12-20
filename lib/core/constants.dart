@@ -6,6 +6,7 @@ class ApiConstants {
   static const categoriesEndPoint = 'categories';
   static const productsEndPoint = 'products';
   static const cartEndPoint = 'cart';
+  static const wishListEndPoint = 'wishlist';
 }
 
 class CacheConstants {

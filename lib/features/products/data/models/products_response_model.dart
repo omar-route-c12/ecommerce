@@ -1,5 +1,5 @@
 import 'package:ecommerce/core/models/meta_data_model.dart';
-import 'package:ecommerce/features/products/data/models/product_model.dart';
+import 'package:ecommerce/core/models/product_model.dart';
 
 class ProductResponseModel {
   final int results;

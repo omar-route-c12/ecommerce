@@ -11,6 +11,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'features/wishlist/presentation/cubit/wishlist_cubit.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = AppBlocObserver();
@@ -32,6 +34,7 @@ class ECommerceApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => serviceLocator.get<AuthCubit>()),
         BlocProvider(create: (_) => serviceLocator.get<CartCubit>()),
+        BlocProvider(create: (_) => serviceLocator.get<WishListCubit>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(430, 932),

@@ -69,6 +69,22 @@ import 'package:ecommerce/features/products/domain/use_cases/get_products_use_ca
     as _i195;
 import 'package:ecommerce/features/products/presentation/cubit/products_cubit.dart'
     as _i382;
+import 'package:ecommerce/features/wishlist/data/data_sources/remote/wishlist_api_remote_data_source.dart'
+    as _i397;
+import 'package:ecommerce/features/wishlist/data/data_sources/remote/wishlist_remote_data_source.dart'
+    as _i788;
+import 'package:ecommerce/features/wishlist/data/repositories/wish_list_repository_impl.dart'
+    as _i571;
+import 'package:ecommerce/features/wishlist/domain/repositories/wishlist_repository.dart'
+    as _i1016;
+import 'package:ecommerce/features/wishlist/domain/use_cases/add_product_to_wishlist.dart'
+    as _i1017;
+import 'package:ecommerce/features/wishlist/domain/use_cases/get_user_wishlist.dart'
+    as _i781;
+import 'package:ecommerce/features/wishlist/domain/use_cases/remove_product_from_wishlist.dart'
+    as _i1010;
+import 'package:ecommerce/features/wishlist/presentation/cubit/wishlist_cubit.dart'
+    as _i141;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
@@ -100,6 +116,8 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i971.CartApiRemoteDataSource(gh<_i361.Dio>()));
     gh.lazySingleton<_i572.HomeRepository>(
         () => _i1028.HomeRepositoryImpl(gh<_i329.HomeRemoteDataSource>()));
+    gh.lazySingleton<_i788.WishListRemoteDataSource>(
+        () => _i397.WishListApiRemoteDataSource(gh<_i361.Dio>()));
     gh.lazySingleton<_i487.CartRepository>(
         () => _i222.CartRepositoryImpl(gh<_i328.CartRemoteDataSource>()));
     gh.lazySingleton<_i804.AddToCart>(
@@ -112,12 +130,20 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i86.UpdateCart(gh<_i487.CartRepository>()));
     gh.singleton<_i74.AuthLocalDataSource>(() =>
         _i258.AuthSharedPrefLocalDataSource(gh<_i460.SharedPreferences>()));
+    gh.lazySingleton<_i1016.WishListRepository>(() =>
+        _i571.WishListRepositoryImpl(gh<_i788.WishListRemoteDataSource>()));
     gh.lazySingleton<_i994.ProductsRepository>(() =>
         _i969.ProductsRepositoryImpl(gh<_i738.ProductsRemoteDataSource>()));
     gh.lazySingleton<_i533.GetCategories>(
         () => _i533.GetCategories(gh<_i572.HomeRepository>()));
     gh.factory<_i669.HomeCubit>(
         () => _i669.HomeCubit(gh<_i533.GetCategories>()));
+    gh.lazySingleton<_i1017.AddProductToWishlist>(
+        () => _i1017.AddProductToWishlist(gh<_i1016.WishListRepository>()));
+    gh.lazySingleton<_i781.GetUserWishlist>(
+        () => _i781.GetUserWishlist(gh<_i1016.WishListRepository>()));
+    gh.lazySingleton<_i1010.RemoveProductFromWishlist>(() =>
+        _i1010.RemoveProductFromWishlist(gh<_i1016.WishListRepository>()));
     gh.lazySingleton<_i769.CartCubit>(() => _i769.CartCubit(
           gh<_i804.AddToCart>(),
           gh<_i514.GetCart>(),
@@ -138,6 +164,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i350.AuthCubit>(() => _i350.AuthCubit(
           gh<_i696.Register>(),
           gh<_i658.Login>(),
+        ));
+    gh.lazySingleton<_i141.WishListCubit>(() => _i141.WishListCubit(
+          gh<_i1017.AddProductToWishlist>(),
+          gh<_i1010.RemoveProductFromWishlist>(),
+          gh<_i781.GetUserWishlist>(),
         ));
     return this;
   }

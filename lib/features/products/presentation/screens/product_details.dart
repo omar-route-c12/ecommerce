@@ -2,7 +2,6 @@ import 'package:ecommerce/core/di/service_locator.dart';
 import 'package:ecommerce/core/resources/assets_manager.dart';
 import 'package:ecommerce/core/resources/color_manager.dart';
 import 'package:ecommerce/core/resources/styles_manager.dart';
-import 'package:ecommerce/core/widgets/custom_elevated_button.dart';
 import 'package:ecommerce/core/widgets/product_counter.dart';
 import 'package:ecommerce/features/products/domain/entities/product.dart';
 import 'package:ecommerce/features/products/presentation/cubit/products_cubit.dart';
@@ -140,16 +139,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                       SizedBox(
                         width: 33.w,
-                      ),
-                      Expanded(
-                        child: CustomElevatedButton(
-                          label: 'Add to cart',
-                          onTap: () {},
-                          prefixIcon: const Icon(
-                            Icons.add_shopping_cart_outlined,
-                            color: ColorManager.white,
-                          ),
-                        ),
                       ),
                     ],
                   ),
